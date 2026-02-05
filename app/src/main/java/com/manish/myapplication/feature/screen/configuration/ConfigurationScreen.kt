@@ -46,7 +46,9 @@ object ConfigurationScreen: Screen {
                 Modifier.fillMaxSize(.5f),
             ) {
                 Column(
-                    Modifier.fillMaxSize()
+                    Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     CircularProgressIndicator(
                         Modifier.padding(32.dp),
