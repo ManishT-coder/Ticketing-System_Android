@@ -48,8 +48,11 @@ object ConfigurationScreen: Screen {
                 Column(
                     Modifier.fillMaxSize()
                 ) {
-                    CircularProgressIndicator()
-
+                    CircularProgressIndicator(
+                        Modifier.padding(32.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 6.dp
+                    )
                     Text("Please Wait for Configuration...")
                 }
             }
