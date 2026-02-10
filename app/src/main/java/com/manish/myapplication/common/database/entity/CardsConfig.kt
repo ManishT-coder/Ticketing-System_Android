@@ -4,10 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity("Cardtype")
-data class Cardtype(
+@Entity(
+    tableName = "CARD_CONFIG"
+)
+data class CardsConfig(
 
-    @PrimaryKey(autoGenerate = true) val cardId: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
 
     @SerializedName("card_type_id") val CardTypeId: Int,
     @SerializedName("media_type_id") val MediaTypeId: Int,

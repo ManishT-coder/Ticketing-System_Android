@@ -4,10 +4,11 @@ import android.content.Context
 import com.manish.myapplication.common.database.AppDatabase
 import com.manish.myapplication.common.database.entity.Stations
 
-class StationsService(context: Context) {
+class StationsService() {
 
-    private val dao = AppDatabase.Companion.getInstance(context).stationsDao()
-
+    private val dao by lazy {
+        AppDatabase.instance.stationsDao()
+    }
     suspend fun getStations(): List<Stations>{
         return dao.getAll()
     }

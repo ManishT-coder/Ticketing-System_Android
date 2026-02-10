@@ -1,18 +1,19 @@
 package com.manish.myapplication.common.database.service
 
-import android.content.Context
 import com.manish.myapplication.common.database.AppDatabase
 import com.manish.myapplication.common.database.entity.Fares
 
-class FaresService(context: Context) {
+class FaresService() {
 
-    private val dao = AppDatabase.Companion.getInstance(context).faresDao()
+    private val dao by lazy {
+        AppDatabase.instance.faresDao()
+    }
 
-    suspend fun getFares(): List<Fares>{
+    suspend fun getFares(): List<Fares> {
         return dao.getAll()
     }
 
-    suspend fun getFaresById(fareID: Int): Fares?{
+    suspend fun getFaresById(fareID: Int): Fares? {
         return dao.getById(fareID)
     }
 

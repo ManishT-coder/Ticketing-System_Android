@@ -5,10 +5,11 @@ import com.manish.myapplication.common.database.AppDatabase
 import com.manish.myapplication.common.database.entity.Passes
 
 
-class PassesService(context: Context){
+class PassesService(){
 
-    private val dao = AppDatabase.Companion.getInstance(context).passesDao()
-
+    private val dao by lazy {
+        AppDatabase.instance.passesDao()
+    }
     suspend fun getPasses(): List<Passes>{
         return dao.getAll()
     }

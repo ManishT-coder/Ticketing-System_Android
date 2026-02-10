@@ -4,26 +4,24 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.manish.myapplication.common.database.entity.Cardtype
-import com.manish.myapplication.common.database.entity.Stations
+import com.manish.myapplication.common.database.entity.CardsConfig
 
 
 @Dao
 interface CardtypeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(items: List<Cardtype>)
+    suspend fun insert(items: List<CardsConfig>)
 
-    @Query("SELECT * FROM Cardtype")
-    suspend fun getAll(): List<Cardtype>
+    @Query("SELECT * FROM CARD_CONFIG")
+    suspend fun getAll(): List<CardsConfig>
 
-    @Query("SELECT * FROM Cardtype WHERE cardId=:CardID")
-    suspend fun getById(CardID: Int): Cardtype?
 
-    @Query("DELETE FROM Cardtype")
+    @Query("SELECT * FROM CARD_CONFIG  WHERE CardTypeId = :cardTypeId")
+    suspend fun getById(cardTypeId: Int): List<CardsConfig>
+
+    @Query("DELETE FROM CARD_CONFIG")
     suspend fun deleteAll()
 
-    @Query("DELETE FROM Cardtype WHERE cardId=:CardId")
-    suspend fun deleteById(CardId: Int)
 
 }

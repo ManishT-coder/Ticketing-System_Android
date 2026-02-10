@@ -2,17 +2,15 @@ package com.manish.myapplication.common.database.service
 
 import android.content.Context
 import com.manish.myapplication.common.database.AppDatabase
-import com.manish.myapplication.common.database.entity.Cardtype
+import com.manish.myapplication.common.database.entity.CardsConfig
 
-class CardtypeService(context: Context) {
+object CardtypeService {
 
-    private val dao = AppDatabase.Companion.getInstance(context).cardtypeDao()
-
-    suspend fun getCardtype(): List<Cardtype>{
-        return dao.getAll()
+    private val dao by lazy {
+        AppDatabase.instance.cardtypeDao()
     }
 
-    suspend fun getCardtypeById(cardId: Int): Cardtype?{
-        return dao.getById(cardId)
+    suspend fun getCardtype(cardTypeId: Int): List<CardsConfig> {
+        return dao.getById(cardTypeId)
     }
 }

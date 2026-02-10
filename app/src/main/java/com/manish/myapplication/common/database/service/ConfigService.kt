@@ -1,19 +1,24 @@
 package com.manish.myapplication.common.database.service
 
-import android.content.Context
 import com.manish.myapplication.common.database.AppDatabase
 import com.manish.myapplication.common.database.entity.Config
+import com.manish.myapplication.feature.screen.configuration.model.ConfigResponse
 
-class ConfigService(context: Context) {
+object ConfigService {
 
-    private val dao = AppDatabase.Companion.getInstance(context).configDao()
+    private val dao by lazy {
+        AppDatabase.instance.configDao()
+    }
 
-    suspend fun getConfig(): List<Config>{
+    suspend fun saveOrUpdate(config: ConfigResponse): Long {
+        return dao.insertConfig(config)
+    }
+    suspend fun getConfig(): ConfigResponse? {
         return dao.getAll()
     }
-
-    suspend fun getByIdConfig(configId: Int): Config?{
-        return dao.getByID(configId)
-    }
+//
+//    suspend fun getByIdConfig(configId: Int): Config?{
+//        return dao.getByID(configId)
+//    }
 
 }

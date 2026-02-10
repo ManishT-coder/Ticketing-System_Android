@@ -8,14 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import com.manish.myapplication.common.database.AppDatabase
-import com.manish.myapplication.feature.screen.authentication.model.LoginUiState
 import com.manish.myapplication.feature.screen.authentication.model.LoginViewModel
 import com.manish.myapplication.repository.ConfigRepo
 
@@ -25,37 +22,25 @@ object LoginScreen : Screen {
     @Composable
     override fun Content() {
 
-        val context = LocalContext.current
+        val navigator = cafe.adriel.voyager.navigator.LocalNavigator.current
 
-        // 1️⃣ Room database
-        val database = remember {
-            AppDatabase.getInstance(context)
-        }
-
-        // 2️⃣ Repository
-        val repo = remember {
-            ConfigRepo(database.configDao())
-        }
-
-        // 3️⃣ ViewModel
         val viewModel = remember {
-            LoginViewModel(repo)
+            LoginViewModel(configRepo = ConfigRepo)
         }
 
-        // Load config only once
         LaunchedEffect(Unit) {
-            viewModel.loadConfig()
+            viewModel.onCreate()
         }
 
-        when (val state = viewModel.uiState) {
-            LoginUiState.Loading -> ConfigLoadingScreen()
-            LoginUiState.Ready -> LoginView(viewModel)
-            is LoginUiState.Error -> ConfigErrorScreen(
-                message = state.message,
-                onRetry = { viewModel.loadConfig() }
-            )
+        LaunchedEffect(viewModel.loginSuccess) {
+            if (viewModel.loginSuccess) {
+                viewModel.loginSuccess = false   // reset state
+                navigator?.replace(WelcomeScreen)
+            }
         }
+        LoginView(viewModel)
     }
+
 
 
 // ---------------- LOGIN VIEW ----------------
@@ -69,7 +54,7 @@ object LoginScreen : Screen {
                 TopAppBar(
                     title = {
                         Text(
-                            text = viewModel.stationName.ifBlank { "Login" },
+                            text = viewModel.config?.data?.config?.StnName ?: "",
                             fontWeight = FontWeight.Bold
                         )
                     },
@@ -87,14 +72,12 @@ object LoginScreen : Screen {
                     .padding(padding)
             ) {
 
-                // Left empty section (future branding)
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
                 )
 
-                // Right login section
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -112,15 +95,22 @@ object LoginScreen : Screen {
 
                     Spacer(modifier = Modifier.height(20.dp))
 
+                    // ✅ USERNAME FIELD
                     OutlinedTextField(
                         value = viewModel.username,
                         onValueChange = {
                             viewModel.username = it
-                            viewModel.showError = false
+                            viewModel.userError = null
                         },
                         label = { Text("Username") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
+                        isError = viewModel.userError != null,
+                        supportingText = {
+                            viewModel.userError?.let {
+                                Text(it, color = MaterialTheme.colorScheme.error)
+                            }
+                        },
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Next,
                             keyboardType = KeyboardType.Number
@@ -129,16 +119,23 @@ object LoginScreen : Screen {
 
                     Spacer(modifier = Modifier.height(12.dp))
 
+                    // ✅ PASSWORD FIELD
                     OutlinedTextField(
                         value = viewModel.password,
                         onValueChange = {
                             viewModel.password = it
-                            viewModel.showError = false
+                            viewModel.passwordError = null
                         },
                         label = { Text("Password") },
                         singleLine = true,
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(),
+                        isError = viewModel.passwordError != null,
+                        supportingText = {
+                            viewModel.passwordError?.let {
+                                Text(it, color = MaterialTheme.colorScheme.error)
+                            }
+                        },
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Done,
                             keyboardType = KeyboardType.NumberPassword
@@ -147,97 +144,34 @@ object LoginScreen : Screen {
 
                     Spacer(modifier = Modifier.height(20.dp))
 
+                    // ✅ LOGIN BUTTON
                     Button(
                         onClick = { viewModel.validateLogin() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
-                        shape = RoundedCornerShape(10.dp)
+                        shape = RoundedCornerShape(10.dp),
+                        enabled = !viewModel.isLoading   // disable when loading
                     ) {
-                        Text(
-                            text = "LOGIN",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
-                    }
 
-                    if (viewModel.showError) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(
-                            text = "Invalid username or password",
-                            color = Color.Red,
-                            fontSize = 13.sp
-                        )
+                        if (viewModel.isLoading) {
+                            CircularProgressIndicator(
+                                strokeWidth = 2.dp,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        } else {
+                            Text(
+                                text = "LOGIN",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
                     }
                 }
             }
         }
     }
 
-    @Composable
-    fun ConfigLoadingScreen() {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator(
-                    strokeWidth = 3.dp
-                )
 
-                Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "Loading station configuration...",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    }
-
-    @Composable
-    fun ConfigErrorScreen(
-        message: String,
-        onRetry: () -> Unit
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(24.dp)
-            ) {
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(
-                    text = "Something went wrong",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Text(
-                    text = message,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Button(
-                    onClick = onRetry,
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-                    Text("Retry")
-                }
-            }
-        }
-    }
 }

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 @Entity("Config")
 data class Config(
 
-    @PrimaryKey(autoGenerate = true) val LocalId: Int=1,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @SerializedName("activation_time") val Avtime: Long,
     @SerializedName("eq_inv_id") val EqInvId: Int,
     @SerializedName("atek_eq_id") val AtekEqId: String,

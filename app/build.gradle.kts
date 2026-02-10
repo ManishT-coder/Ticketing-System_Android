@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.manish.minitom"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -81,12 +81,18 @@ dependencies {
     implementation(libs.tinylog.api)
     implementation(libs.tinylog.impl)
 
-    // Room
+
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.common.jvm)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.room.compiler)
+
+
+
     ksp(libs.androidx.room.compiler) // FIX: Generates the missing AppDatabase_Impl
+
+
+    implementation(libs.kotlinx.serialization.json)
+
 
     // Testing
     testImplementation(libs.junit)

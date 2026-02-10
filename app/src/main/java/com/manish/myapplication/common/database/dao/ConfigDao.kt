@@ -5,27 +5,19 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.manish.myapplication.common.database.entity.Config
+import com.manish.myapplication.feature.screen.configuration.model.ConfigResponse
 
 
 @Dao
 interface ConfigDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertConfig(config: Config)
+    suspend fun insertConfig(config: ConfigResponse): Long
 
-    @Query("SELECT * FROM Config")
-    suspend fun getAll(): List<Config>
-
-    @Query("SELECT * FROM Config")
-    suspend fun getConfig(): Config?
-
-    @Query("SELECT * FROM Config WHERE LocalId =:ConfigID")
-    suspend fun getByID(ConfigID: Int): Config?
-
-    @Query("DELETE FROM Config")
-    suspend fun deleteAll()
-
-    @Query("DELETE FROM Config WHERE LocalId=:ConfigId")
+    @Query("SELECT * FROM config_response")
+    suspend fun getAll(): ConfigResponse?
+    
+    @Query("DELETE FROM config_response WHERE id=:ConfigId")
     suspend fun deleteById(ConfigId: Int)
 
 }

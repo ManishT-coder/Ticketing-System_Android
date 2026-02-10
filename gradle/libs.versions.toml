@@ -14,7 +14,7 @@ gson = "2.13.2"
 okhttp = "5.3.2"
 voyager = "1.1.0-beta03"
 tinylog = "2.7.0"
-ksp = "2.2.0-2.0.2"
+ksp = "2.3.0"
 multidex = "2.0.1"
 kotlinxSerializationJson = "1.10.0"
 
