@@ -164,7 +164,7 @@ object LoginScreen : Screen {
                                     )
                                 )
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                                Spacer(modifier = Modifier.height(6.dp))
 
                                 // LOGIN BUTTON (good color, not purple)
                                 Button(
