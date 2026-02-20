@@ -54,8 +54,10 @@ object LoginScreen : Screen {
                 TopAppBar(
                     title = {
                         Text(
-                            text = viewModel.config?.data?.config?.StnName ?: "",
-                            fontWeight = FontWeight.Bold
+                            text = stationName.ifBlank { "NA" },
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 22.sp,
+                            maxLines = 1
                         )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -63,7 +65,8 @@ object LoginScreen : Screen {
                         titleContentColor = Color.White
                     )
                 )
-            }
+            },
+            containerColor = Color(0xFFF8FAFC) // very light background
         ) { padding ->
 
             Row(
