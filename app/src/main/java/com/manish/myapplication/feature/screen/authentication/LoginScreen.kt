@@ -200,6 +200,15 @@ object LoginScreen : Screen {
         }
     }
 
-
+}
+    @Preview(showBackground = true, device = "spec:parent=pixel_5,orientation=landscape")
+    @Composable
+    fun LoginScreenPreview() {
+        MaterialTheme {
+            LoginScreen.LoginView(
+                viewModel = remember { LoginViewModel(configRepo = ConfigRepo) }
+            )
+        }
+    }
 
 }
