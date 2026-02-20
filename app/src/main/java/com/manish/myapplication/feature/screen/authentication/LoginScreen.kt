@@ -161,27 +161,38 @@ object LoginScreen : Screen {
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // ✅ LOGIN BUTTON
-                    Button(
-                        onClick = { viewModel.validateLogin() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
-                        shape = RoundedCornerShape(10.dp),
-                        enabled = !viewModel.isLoading   // disable when loading
-                    ) {
-
-                        if (viewModel.isLoading) {
-                            CircularProgressIndicator(
-                                strokeWidth = 2.dp,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        } else {
-                            Text(
-                                text = "LOGIN",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
-                            )
+                                // LOGIN BUTTON (good color, not purple)
+                                Button(
+                                    onClick = { viewModel.validateLogin() },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp),
+                                    shape = RoundedCornerShape(12.dp),
+                                    enabled = !viewModel.isLoading,
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(0xFF2563EB), // blue
+                                        contentColor = Color.White,
+                                        disabledContainerColor = Color(0xFF93C5FD),
+                                        disabledContentColor = Color.White
+                                    )
+                                ) {
+                                    if (viewModel.isLoading) {
+                                        CircularProgressIndicator(
+                                            strokeWidth = 2.dp,
+                                            modifier = Modifier.size(20.dp),
+                                            color = Color.White
+                                        )
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Text("Signing in...")
+                                    } else {
+                                        Text(
+                                            text = "LOGIN",
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
