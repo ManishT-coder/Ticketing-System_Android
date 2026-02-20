@@ -104,11 +104,13 @@ object LoginScreen : Screen {
                                 horizontalAlignment = Alignment.Start
                             ) {
 
-                    Text(
-                        text = "Login",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                                // ✅ Login heading in main area (not top bar)
+                                Text(
+                                    text = "Login",
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF0F172A)
+                                )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
