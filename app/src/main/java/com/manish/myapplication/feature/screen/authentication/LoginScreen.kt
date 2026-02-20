@@ -49,6 +49,8 @@ object LoginScreen : Screen {
     @Composable
     fun LoginView(viewModel: LoginViewModel) {
 
+        val stationName = viewModel.config?.data?.config?.StnName ?: "NA"
+
         Scaffold(
             topBar = {
                 TopAppBar(
