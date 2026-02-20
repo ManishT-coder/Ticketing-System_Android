@@ -78,6 +78,7 @@ object LoginScreen : Screen {
                     .padding(horizontal = 24.dp, vertical = 16.dp)
             ) {
 
+                // Left empty space (professional split layout)
                 Box(
                     modifier = Modifier
                         .weight(1f)
