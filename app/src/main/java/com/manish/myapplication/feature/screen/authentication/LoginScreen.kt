@@ -81,11 +81,28 @@ object LoginScreen : Screen {
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxHeight()
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxHeight(),
+                    color = Color.Transparent
                 ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .widthIn(max = 420.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            tonalElevation = 0.dp,   // ✅ remove shadow
+                            shadowElevation = 0.dp,  // ✅ remove shadow
+                            color = Color.White,
+                            border = BorderStroke(1.dp, Color(0xFFE2E8F0)) // clean border
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(24.dp),
+                                verticalArrangement = Arrangement.spacedBy(14.dp),
+                                horizontalAlignment = Alignment.Start
+                            ) {
 
                     Text(
                         text = "Login",
