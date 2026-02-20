@@ -81,7 +81,7 @@ object LoginScreen : Screen {
                 // Left empty space (professional split layout)
                 Box(
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(1.1f)
                         .fillMaxHeight()
                 )
 
