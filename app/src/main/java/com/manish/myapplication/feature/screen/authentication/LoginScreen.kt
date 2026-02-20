@@ -85,7 +85,8 @@ object LoginScreen : Screen {
                         .fillMaxHeight()
                 )
 
-                Column(
+                // Right login panel (NO SHADOW)
+                Surface(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight(),
