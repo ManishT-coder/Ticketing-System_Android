@@ -61,7 +61,7 @@ object LoginScreen : Screen {
                         )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
+                        containerColor = Color(0xFF0F172A), // dark navy (not purple)
                         titleContentColor = Color.White
                     )
                 )
