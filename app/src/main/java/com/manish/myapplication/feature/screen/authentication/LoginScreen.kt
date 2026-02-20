@@ -114,52 +114,50 @@ object LoginScreen : Screen {
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // ✅ USERNAME FIELD
-                    OutlinedTextField(
-                        value = viewModel.username,
-                        onValueChange = {
-                            viewModel.username = it
-                            viewModel.userError = null
-                        },
-                        label = { Text("Username") },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(),
-                        isError = viewModel.userError != null,
-                        supportingText = {
-                            viewModel.userError?.let {
-                                Text(it, color = MaterialTheme.colorScheme.error)
-                            }
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Next,
-                            keyboardType = KeyboardType.Number
-                        )
-                    )
+                                // USERNAME (no icon)
+                                OutlinedTextField(
+                                    value = viewModel.username,
+                                    onValueChange = {
+                                        viewModel.username = it
+                                        viewModel.userError = null
+                                    },
+                                    label = { Text("Username") },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    isError = viewModel.userError != null,
+                                    supportingText = {
+                                        viewModel.userError?.let {
+                                            Text(it, color = MaterialTheme.colorScheme.error)
+                                        }
+                                    },
+                                    keyboardOptions = KeyboardOptions(
+                                        imeAction = ImeAction.Next,
+                                        keyboardType = KeyboardType.Number
+                                    )
+                                )
 
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    // ✅ PASSWORD FIELD
-                    OutlinedTextField(
-                        value = viewModel.password,
-                        onValueChange = {
-                            viewModel.password = it
-                            viewModel.passwordError = null
-                        },
-                        label = { Text("Password") },
-                        singleLine = true,
-                        visualTransformation = PasswordVisualTransformation(),
-                        modifier = Modifier.fillMaxWidth(),
-                        isError = viewModel.passwordError != null,
-                        supportingText = {
-                            viewModel.passwordError?.let {
-                                Text(it, color = MaterialTheme.colorScheme.error)
-                            }
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Done,
-                            keyboardType = KeyboardType.NumberPassword
-                        )
-                    )
+                                // PASSWORD (no icon)
+                                OutlinedTextField(
+                                    value = viewModel.password,
+                                    onValueChange = {
+                                        viewModel.password = it
+                                        viewModel.passwordError = null
+                                    },
+                                    label = { Text("Password") },
+                                    singleLine = true,
+                                    visualTransformation = PasswordVisualTransformation(),
+                                    modifier = Modifier.fillMaxWidth(),
+                                    isError = viewModel.passwordError != null,
+                                    supportingText = {
+                                        viewModel.passwordError?.let {
+                                            Text(it, color = MaterialTheme.colorScheme.error)
+                                        }
+                                    },
+                                    keyboardOptions = KeyboardOptions(
+                                        imeAction = ImeAction.Done,
+                                        keyboardType = KeyboardType.NumberPassword
+                                    )
+                                )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
