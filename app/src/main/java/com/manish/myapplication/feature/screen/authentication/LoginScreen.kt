@@ -75,6 +75,7 @@ object LoginScreen : Screen {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
             ) {
 
                 Box(
